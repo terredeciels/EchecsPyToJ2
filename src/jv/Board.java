@@ -2,6 +2,7 @@ package jv;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
 
@@ -451,6 +452,35 @@ public class Board {
 
         return coord[i];
     }
+
+    public int caseStr2Int(String c) {
+//        """'c' given in argument is a square name like 'e2'
+//        "This functino returns a square number like 52"""
+
+        String[] err = {
+                "The square name must be 2 caracters i.e. e2,e4,b1...",
+                "Incorrect square name. Please enter i.e. e2,e4,b1..."
+        };
+        String letters = "abcdefgh";
+        String numbers = "12345678";
+
+        if (c.length() != 2) {
+            System.out.print(err[0]);
+            return -1;
+        }
+        if (!letters.contains(Character.toString(c.charAt(0)))) {
+            System.out.print(err[1]);
+            return -1;
+        }
+        if (!numbers.contains(Character.toString(c.charAt(1)))) {
+            System.out.print(err[1]);
+            return -1;
+        }
+        int ret = Arrays.asList(coord).indexOf(c);
+        return ret;
+
+    }
 }
+
 
 
