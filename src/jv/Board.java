@@ -58,7 +58,7 @@ public class Board {
 
 
         side2move = "blanc";
-        ep = -1 ; // the number of the square where to take 'en pasant'
+        ep = -1; // the number of the square where to take 'en pasant'
         history = new ArrayList<>();
         ply = 0; // half-move number since the start
 
@@ -407,9 +407,10 @@ public class Board {
                     if (pos2 == 58) {
                         cases[56] = new Piece("TOUR", "blanc");
                         cases[59] = new Piece();
-                    } else if (pos2 == 62){
+                    } else if (pos2 == 62) {
                         cases[63] = new Piece("TOUR", "blanc");
-                    cases[61] = new Piece();}
+                        cases[61] = new Piece();
+                    }
                 }
             }
             //Black KING
