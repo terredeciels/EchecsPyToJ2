@@ -26,7 +26,7 @@ public class Main {
 
         while (true) {
 
-            // b.render();
+             b.render();
 
             Scanner obj = new Scanner(System.in);
             //String  c = input('>>> ');
@@ -36,8 +36,8 @@ public class Main {
             if (c.equals("quit") || c.equals("exit"))
                 System.exit(0);
 
-            else if (c.equals("undomove"))
-                e.undomove(b);
+//            else if (c.equals("undomove"))
+//                e.undomove(b);
 
 //            else if ("setboard".contains(c))
 //                e.setboard(b, c);
@@ -57,12 +57,12 @@ public class Main {
 //            else if ("sd ".contains(c))
 //                e.setDepth(c);
 
-            else if ("perft ".contains(c))
-                // e.perft(c, b);
-                e.perft(4, b);
+//            else if ("perft ".contains(c))
+//                // e.perft(c, b);
+//                e.perft(3, b);
 
-            else if (c.equals("legalmoves"))
-                e.legalmoves(b);
+//            else if (c.equals("legalmoves"))
+//                e.legalmoves(b);
 
             else
                 // coup à jouer ? ex : e2e4

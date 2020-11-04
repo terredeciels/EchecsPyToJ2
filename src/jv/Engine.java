@@ -4,14 +4,26 @@ import java.util.ArrayList;
 
 public class Engine {
 
-    private final int init_depth;
+    int[] pv_length;
+    Move[][] pv;
+    int nodes;
+    int MAX_PLY;
+    int INFINITY;
+    private int init_depth;
     private boolean endgame;
 
     public Engine() {
         endgame = false;
         init_depth = 4; // search in fixed depth
-        //nodes = 0  // number of nodes
-        //clear_pv();
+        nodes = 0; // number of nodes
+        clear_pv();
+        MAX_PLY = 32;
+        //pv_length = [0 for x in range(self.MAX_PLY)];
+        pv_length = new int[MAX_PLY];
+        pv = new Move[MAX_PLY][MAX_PLY];
+        for (int x = 0; x < MAX_PLY; x++) pv_length[x] = 0;
+        INFINITY = 32000;
+
     }
 
     void legalmoves(Board b) {
@@ -148,13 +160,13 @@ public class Engine {
             return;
         }
         // Display the chess board
-        // b.render();
+        b.render();
 
         // Check if game is over
         print_result(b);
 
         // Let the engine play
-        // self.search(b)
+        search(b);
     }
 
     private void print_result(Board b) {
@@ -240,4 +252,145 @@ public class Engine {
 //    int get_ms() {
 //        return  round(time.time() * 1000);
 //    }
+
+
+    void clear_pv() {
+
+        //    "Clear the triangular PV table containing best moves lines"
+        // pv = [[0 for x in range(self.MAX_PLY)] for x in range(self.MAX_PLY)]
+
+        for (int x = 0; x < MAX_PLY; x++)
+            for (int y = 0; y < MAX_PLY; y++)
+                pv[x][y] = null;
+    }
+
+
+    void search(Board b) {
+
+//        """Search the best move for the side to move,
+//        according to the given chessboard 'b'
+//        """
+
+        if (endgame) {
+            print_result(b);
+            return;
+        }
+        // TODO
+        // search in opening book
+
+        clear_pv();
+        nodes = 0;
+        b.ply = 0;
+
+       // System.out.print("ply\tnodes\tscore\tpv");
+
+        for (int i = 1; i < init_depth + 1; i++) {
+
+            int score = alphabeta(i, -INFINITY, INFINITY, b);
+
+            //print("{}\t{}\t{}\t".format(i, self.nodes, score / 10), end='')
+
+            // print PV informations : ply, nodes...
+            int j = 0;
+            while (pv[j][j] != null) {
+                Move c = pv[j][j];
+                String pos1 = b.caseInt2Str(c.pos1);
+                String pos2 = b.caseInt2Str(c.pos2);
+                //print("{}{}{}".format(pos1, pos2, c[2]), end=' ')
+                //System.out.println(pos1 + "," + pos2 + "," + c.s);
+                j += 1;
+            }
+
+            //System.out.println();
+
+            // Break if MAT is found
+            if (score > INFINITY - 100 || score < -INFINITY + 100)
+                break;
+        }
+        // root best move found, do it, and print result
+        Move best = pv[0][0];
+        b.domove(best.pos1, best.pos2, best.s);
+        print_result(b);
+    }
+
+    int alphabeta(int depth, int alpha, int beta, Board b) {
+
+        // We arrived at the end of the search : return the board score
+        if (depth == 0)
+            return b.evaluer();
+        // TODO : return quiesce(alpha,beta)
+
+        int nodes = 1;
+
+        pv_length[b.ply] = b.ply;
+
+        // Do not go too deep
+        if (b.ply >= MAX_PLY - 1)
+            return b.evaluer();
+
+        // Extensions
+        // If king is in check, let's go deeper
+        boolean chk = b.in_check(b.side2move);
+        ; // 'chk' used at the end of func too
+        if (chk)
+            depth += 1;
+
+        // TODO
+        // sort moves : captures first
+
+        // Generate all moves for the side to move. Those who
+        // let king in check will be processed in domove()
+        ArrayList<Move> mList = b.gen_moves_list("", false);
+
+        boolean f = false;  // flag to know if at least one move will be done
+        //for i, m in enumerate(mList)
+        for (int i = 0; i < mList.size(); i++) {
+            //Do the move 'm'.
+            // If it lets king in check, undo it and ignore it
+            // remind : a move is defined with (pos1,pos2,promote)
+            // i.e. : 'e7e8q' is (12,4,'q')
+            Move m = mList.get(i);
+            if (!b.domove(m.pos1, m.pos2, m.s))
+                continue;
+
+            f = true;  // a move has passed
+
+            int score = -alphabeta(depth - 1, -beta, -alpha, b);
+
+            // Unmake move
+            b.undomove();
+
+            if (score > alpha) {
+
+                // TODO
+                // this move caused a cutoff,
+                // should be ordered higher for the next search
+
+                if (score >= beta)
+                    return beta;
+                alpha = score;
+
+                // Updating the triangular PV-Table
+                pv[b.ply][b.ply] = m;
+                int j = b.ply + 1;
+                while (j < pv_length[b.ply + 1]) {
+                    pv[b.ply][j] = pv[b.ply + 1][j];
+                    pv_length[b.ply] = pv_length[b.ply + 1];
+                    j += 1;
+                }
+            }
+        }
+        // If no move has been done : it is DRAW or MAT
+        if (!f) {
+            if (chk)
+                return -INFINITY + b.ply;  //MAT
+            else
+                return 0; //DRAW
+        }
+        // TODO
+        // 50 moves rule
+
+        return alpha;
+    }
+
 }

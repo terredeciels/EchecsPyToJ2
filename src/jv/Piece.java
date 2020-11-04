@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Piece {
     // "Chess set class"
 
-    String VIDE = "."; // empty piece name (=empty square '.' in console)
+    final String VIDE = "."; // empty piece name (=empty square '.' in console)
 
     // Name of the pieces
     String[] nomPiece = {VIDE, "ROI", "DAME", "TOUR", "CAVALIER", "FOU", "PION"};
 
     // Give a score value for each piece : KING=0, QUEEN=9, ROOK=5...
-    // int[] valeurPiece={0,0,9,5,3,3,1};
+    int[] valeurPiece = {0, 0, 9, 5, 3, 3, 1};
 
     // For the pieces moves, using method "mail box" from Robert Hyatt
     // It helps to know if a piece is not moved outside the board !
@@ -51,7 +51,7 @@ public class Piece {
 
     String nom;
     String couleur;
-    //int valeur;
+    int valeur;
 
     public Piece(String nomStr, String couleurStr) {
 
@@ -62,7 +62,25 @@ public class Piece {
 
         nom = nomStr;
         couleur = couleurStr;
-        // valeur = valeurPiece[nomPiece.index(nomStr)];
+        //valeur = valeurPiece[nomPiece.index(nomStr)];
+        // int[] valeurPiece={0,0,9,5,3,3,1};
+        switch (nomStr) {
+            case VIDE:
+                valeur = 0;
+            case "ROI":
+                valeur = 0;
+            case "DAME":
+                valeur = 9;
+            case "TOUR":
+                valeur = 5;
+            case "CAVALIER":
+                valeur = 3;
+            case "FOU":
+                valeur = 3;
+            case "PION":
+                valeur = 1;
+        }
+        ;
 
     }
 
@@ -333,7 +351,7 @@ public class Piece {
         return liste;
     }
 
-    private boolean isEmpty() {
+     boolean isEmpty() {
 //        """Returns TRUE or FALSE if this piece object is defined,
 //        As any square on board can have a piece on it, or not,
 //        we can set a null piece on a square."""

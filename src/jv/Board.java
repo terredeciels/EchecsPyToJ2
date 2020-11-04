@@ -25,6 +25,7 @@ public class Board {
             "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
     };
     String side2move;
+    int ply;
     private Piece pieceDeplacee;
     private Piece piecePrise;
     private boolean isEp;
@@ -34,7 +35,6 @@ public class Board {
     private boolean hist_roque_0;
     private boolean hist_roque_7;
     private boolean flagViderEp;
-    private int ply;
 
     public Board() {
         //cases = new Piece[64];
@@ -479,6 +479,84 @@ public class Board {
         int ret = Arrays.asList(coord).indexOf(c);
         return ret;
 
+    }
+
+    int evaluer() {
+
+//        """A wonderful evaluate() function
+//        returning actually only the material score"""
+
+        int WhiteScore = 0;
+        int BlackScore = 0;
+
+        // Parsing the board squares from 0 to 63
+
+        for (int pos1 = 0; pos1 < 64; pos1++) {
+
+            Piece piece = cases[pos1];
+            //Material score
+            if (piece.couleur.equals("blanc"))
+                WhiteScore += piece.valeur;
+            else
+                // NB:here is for black piece or empty square
+                BlackScore += piece.valeur;
+        }
+        if (side2move.equals("blanc"))
+            return WhiteScore - BlackScore;
+        else
+            return BlackScore - WhiteScore;
+
+    }
+
+    void render() {
+        System.out.println("Side to move : " + side2move);
+        showHistory();
+    }
+
+    void showHistory() {
+
+        // "Displays the history of the moves played"
+
+        if (history.size() == 0)
+            return;
+
+        //System.out.println();
+        //cpt, aff = 1.0, True
+//        for (depart, \
+//    arrivee, \
+//    pieceDeplacee, \
+//    piecePrise, \
+//    isEp, \
+//    histEp, \
+//    promote, \
+//    roque56, \
+//    roque63, \
+//    roque0, \
+//    roque7) in self.history:
+        String a, b;
+        double cpt = 0.0;
+        boolean aff = false;
+        for (MoveHistory h : history) {
+            a = caseInt2Str(h.getDepart());
+            b = caseInt2Str(h.getArrivee());
+            if (piecePrise.isEmpty() == false)
+                a = a + 'x';
+            if (h.getPromote() != "")
+                b = b + h.getPromote();
+
+            if (aff == true) {
+                //print("{}.{}{} ".format(int(cpt), a, b),end = ' ')
+                System.out.println(cpt + "," + a + "," + b);
+                aff = false;
+            } else {
+               System.out.println(a + "," + b);
+                aff = true;
+            }
+            cpt += 0.5;
+        }
+
+        System.out.println();
+        //System.out.println();
     }
 }
 
