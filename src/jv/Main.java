@@ -30,7 +30,7 @@ public class Main {
 
             Scanner obj = new Scanner(System.in);
             //String  c = input('>>> ');
-            System.out.println(">>> ");
+            System.out.println("> ");
             String c = obj.nextLine();
 
             if (c.equals("quit") || c.equals("exit"))

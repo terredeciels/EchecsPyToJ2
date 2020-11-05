@@ -9,8 +9,8 @@ public class Engine {
     int nodes;
     int MAX_PLY;
     int INFINITY;
-    private int init_depth;
-    private boolean endgame;
+    int init_depth;
+    boolean endgame;
 
     public Engine() {
         endgame = false;
@@ -154,7 +154,7 @@ public class Engine {
                 break;
             }
         }
-        final boolean b2 = !b.domove(pos1, pos2, promote);
+        boolean b2 = !b.domove(pos1, pos2, promote);
         if (!b1 || b2) {
             System.out.print("\n" + c + " : incorrect move or let king in check" + "\n");
             return;
@@ -192,8 +192,9 @@ public class Engine {
                     System.out.print("1-0 {White mates}");
             } else {
                 System.out.print("1/2-1/2 {Stalemate}");
-                endgame = true;
             }
+            endgame = true;
+
         }
 //        # TODO
 //        # 3 reps
@@ -282,14 +283,14 @@ public class Engine {
         nodes = 0;
         b.ply = 0;
 
-       // System.out.print("ply\tnodes\tscore\tpv");
+        // System.out.print("ply\tnodes\tscore\tpv");
 
         for (int i = 1; i < init_depth + 1; i++) {
 
-            int score = alphabeta(i, -INFINITY, INFINITY, b);
+            double score = alphabeta(i, -INFINITY, INFINITY, b);
 
             //print("{}\t{}\t{}\t".format(i, self.nodes, score / 10), end='')
-
+            System.out.print(i + "  " + nodes + "  " + score / 10 + "  ");
             // print PV informations : ply, nodes...
             int j = 0;
             while (pv[j][j] != null) {
@@ -297,11 +298,11 @@ public class Engine {
                 String pos1 = b.caseInt2Str(c.pos1);
                 String pos2 = b.caseInt2Str(c.pos2);
                 //print("{}{}{}".format(pos1, pos2, c[2]), end=' ')
-                //System.out.println(pos1 + "," + pos2 + "," + c.s);
+                System.out.print(pos1 + "" + pos2 + c.s+ " ");
                 j += 1;
             }
 
-            //System.out.println();
+            System.out.println();
 
             // Break if MAT is found
             if (score > INFINITY - 100 || score < -INFINITY + 100)
@@ -313,15 +314,14 @@ public class Engine {
         print_result(b);
     }
 
-    int alphabeta(int depth, int alpha, int beta, Board b) {
+    double alphabeta(int depth, double alpha, double beta, Board b) {
 
         // We arrived at the end of the search : return the board score
         if (depth == 0)
             return b.evaluer();
         // TODO : return quiesce(alpha,beta)
 
-        int nodes = 1;
-
+        nodes += 1;
         pv_length[b.ply] = b.ply;
 
         // Do not go too deep
@@ -330,8 +330,7 @@ public class Engine {
 
         // Extensions
         // If king is in check, let's go deeper
-        boolean chk = b.in_check(b.side2move);
-        ; // 'chk' used at the end of func too
+        boolean chk = b.in_check(b.side2move);// 'chk' used at the end of func too
         if (chk)
             depth += 1;
 
@@ -355,7 +354,7 @@ public class Engine {
 
             f = true;  // a move has passed
 
-            int score = -alphabeta(depth - 1, -beta, -alpha, b);
+            double score = -alphabeta(depth - 1, -beta, -alpha, b);
 
             // Unmake move
             b.undomove();

@@ -66,19 +66,19 @@ public class Piece {
         // int[] valeurPiece={0,0,9,5,3,3,1};
         switch (nomStr) {
             case VIDE:
-                valeur = 0;
+                valeur = 0;break;
             case "ROI":
-                valeur = 0;
+                valeur = 0;break;
             case "DAME":
-                valeur = 9;
+                valeur = 9;break;
             case "TOUR":
-                valeur = 5;
+                valeur = 5;break;
             case "CAVALIER":
-                valeur = 3;
+                valeur = 3;break;
             case "FOU":
-                valeur = 3;
+                valeur = 3;break;
             case "PION":
-                valeur = 1;
+                valeur = 1;break;
         }
         ;
 

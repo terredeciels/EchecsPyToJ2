@@ -109,7 +109,7 @@ public class Board {
 //        """
 
 
-        if (color == "") color = side2move;
+        if (color.equals("")) color = side2move;
         ArrayList<Move> mList = new ArrayList<>();
 
         // For each "piece" on the board(pos1 = 0to 63)
@@ -192,10 +192,10 @@ public class Board {
         ply += 1;
 
         // a PAWN has been moved -------------------------------------
-        if (pieceDeplacee.nom == "PION") {
+        if (pieceDeplacee.nom.equals("PION")) {
 
             //White PAWN
-            if (pieceDeplacee.couleur == "blanc") {
+            if (pieceDeplacee.couleur.equals("blanc")) {
 
                 //If the move is "en passant"
                 if (ep == arrivee) {
@@ -226,10 +226,10 @@ public class Board {
         // a ROOK has been moved--------------------------------------
         // update castle rights
 
-        else if (pieceDeplacee.nom == "TOUR") {
+        else if (pieceDeplacee.nom.equals("TOUR")) {
 
             // White ROOK
-            if (pieceDeplacee.couleur == "blanc") {
+            if (pieceDeplacee.couleur.equals("blanc")) {
                 if (depart == 56)
                     white_can_castle_56 = false;
                 else if (depart == 63)
@@ -243,10 +243,10 @@ public class Board {
                     black_can_castle_7 = false;
             }
             // a KING has been moved-----------------------------------------
-        } else if (pieceDeplacee.nom == "ROI") {
+        } else if (pieceDeplacee.nom.equals("ROI")) {
 
             // White KING
-            if (pieceDeplacee.couleur == "blanc") {
+            if (pieceDeplacee.couleur.equals("blanc")) {
 
                 // moving from starting square
                 if (depart == 60) {
@@ -360,8 +360,8 @@ public class Board {
         int pos2 = lastmove.getArrivee();
         Piece piece_deplacee = lastmove.getPieceDeplacee();
         Piece piece_prise = lastmove.getPiecePrise();
-        isEp = lastmove.isEp();
-        ep = lastmove.getHistEp();
+         boolean isEp = lastmove.isEp();
+       int ep = lastmove.getHistEp();
         String promote = lastmove.getPromote();
         white_can_castle_56 = lastmove.isHist_roque_56();
         white_can_castle_63 = lastmove.isHist_roque_63();
@@ -495,11 +495,12 @@ public class Board {
 
             Piece piece = cases[pos1];
             //Material score
+            final int valeur = piece.valeur;
             if (piece.couleur.equals("blanc"))
-                WhiteScore += piece.valeur;
+                WhiteScore += valeur;
             else
                 // NB:here is for black piece or empty square
-                BlackScore += piece.valeur;
+                BlackScore += valeur;
         }
         if (side2move.equals("blanc"))
             return WhiteScore - BlackScore;
@@ -509,7 +510,7 @@ public class Board {
     }
 
     void render() {
-        System.out.println("Side to move : " + side2move);
+       // System.out.println("Side to move : " + side2move);
         showHistory();
     }
 
@@ -537,23 +538,26 @@ public class Board {
         double cpt = 0.0;
         boolean aff = false;
         for (MoveHistory h : history) {
-            a = caseInt2Str(h.getDepart());
-            b = caseInt2Str(h.getArrivee());
-            if (piecePrise.isEmpty() == false)
-                a = a + 'x';
-            if (h.getPromote() != "")
-                b = b + h.getPromote();
-
-            if (aff == true) {
-                //print("{}.{}{} ".format(int(cpt), a, b),end = ' ')
-                System.out.println(cpt + "," + a + "," + b);
-                aff = false;
-            } else {
-               System.out.println(a + "," + b);
-                aff = true;
-            }
-            cpt += 0.5;
-        }
+            final int depart = h.getDepart();
+            a = caseInt2Str(depart);
+            final int arrivee = h.getArrivee();
+            b = caseInt2Str(arrivee);
+            System.out.print(" "+a+","+b);
+//            if (!piecePrise.isEmpty())
+//                a = a + "x";
+//            if (!h.getPromote().equals(""))
+//                b = b + h.getPromote();
+//
+//            if (aff) {
+//                //print("{}.{}{} ".format(int(cpt), a, b),end = ' ')
+//                System.out.println((int) (cpt) + a  + b +" ");
+//                aff = false;
+//            } else {
+//               System.out.println(a  + b + " ");
+//                aff = true;
+//            }
+//            cpt += 0.5;
+       }
 
         System.out.println();
         //System.out.println();
