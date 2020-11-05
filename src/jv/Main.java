@@ -1,5 +1,9 @@
 package jv;
+/*
 
+Version python to java OK_v1
+
+ */
 import java.util.Scanner;
 
 public class Main {
