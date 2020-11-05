@@ -66,19 +66,26 @@ public class Piece {
         // int[] valeurPiece={0,0,9,5,3,3,1};
         switch (nomStr) {
             case VIDE:
-                valeur = 0;break;
+                valeur = 0;
+                break;
             case "ROI":
-                valeur = 0;break;
+                valeur = 0;
+                break;
             case "DAME":
-                valeur = 9;break;
+                valeur = 9;
+                break;
             case "TOUR":
-                valeur = 5;break;
+                valeur = 5;
+                break;
             case "CAVALIER":
-                valeur = 3;break;
+                valeur = 3;
+                break;
             case "FOU":
-                valeur = 3;break;
+                valeur = 3;
+                break;
             case "PION":
-                valeur = 1;break;
+                valeur = 1;
+                break;
         }
         ;
 
@@ -351,7 +358,7 @@ public class Piece {
         return liste;
     }
 
-     boolean isEmpty() {
+    boolean isEmpty() {
 //        """Returns TRUE or FALSE if this piece object is defined,
 //        As any square on board can have a piece on it, or not,
 //        we can set a null piece on a square."""

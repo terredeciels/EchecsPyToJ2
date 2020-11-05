@@ -26,7 +26,7 @@ public class Main {
 
         while (true) {
 
-             b.render();
+            b.render();
 
             Scanner obj = new Scanner(System.in);
             //String  c = input('>>> ');

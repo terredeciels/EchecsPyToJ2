@@ -298,7 +298,7 @@ public class Engine {
                 String pos1 = b.caseInt2Str(c.pos1);
                 String pos2 = b.caseInt2Str(c.pos2);
                 //print("{}{}{}".format(pos1, pos2, c[2]), end=' ')
-                System.out.print(pos1 + "" + pos2 + c.s+ " ");
+                System.out.print(pos1 + "" + pos2 + c.s + " ");
                 j += 1;
             }
 

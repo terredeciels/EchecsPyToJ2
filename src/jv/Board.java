@@ -360,8 +360,8 @@ public class Board {
         int pos2 = lastmove.getArrivee();
         Piece piece_deplacee = lastmove.getPieceDeplacee();
         Piece piece_prise = lastmove.getPiecePrise();
-         boolean isEp = lastmove.isEp();
-       int ep = lastmove.getHistEp();
+        boolean isEp = lastmove.isEp();
+        int ep = lastmove.getHistEp();
         String promote = lastmove.getPromote();
         white_can_castle_56 = lastmove.isHist_roque_56();
         white_can_castle_63 = lastmove.isHist_roque_63();
@@ -510,7 +510,7 @@ public class Board {
     }
 
     void render() {
-       // System.out.println("Side to move : " + side2move);
+        // System.out.println("Side to move : " + side2move);
         showHistory();
     }
 
@@ -542,7 +542,7 @@ public class Board {
             a = caseInt2Str(depart);
             final int arrivee = h.getArrivee();
             b = caseInt2Str(arrivee);
-            System.out.print(" "+a+","+b);
+            System.out.print(" " + a + "," + b);
 //            if (!piecePrise.isEmpty())
 //                a = a + "x";
 //            if (!h.getPromote().equals(""))
@@ -557,7 +557,7 @@ public class Board {
 //                aff = true;
 //            }
 //            cpt += 0.5;
-       }
+        }
 
         System.out.println();
         //System.out.println();
